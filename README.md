@@ -1,1 +1,1 @@
-# H-M-Personalized-Fashion-Recommendations
+# H&M Personalized Fashion Recommendations
