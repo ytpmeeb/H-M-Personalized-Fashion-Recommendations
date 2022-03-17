@@ -46,3 +46,27 @@ data['t_dat'] = pd.to_datetime(data['t_dat'], format='%Y-%m-%d').map(pd.Timestam
 purchasesHistory(data).lastWeekPurchases()
 
 pd.crosstab(data.customer_id, data.article_id)
+
+
+"""
+03/16 Meeting
+
+focus on:
+1. project should focus more on Event of item, like what item was bought at what day
+row is time, range can be last 30 days purchase
+col is purchase event, the feature what customer did or product
+
+2. eliminate the one time shopper and focus on more than 2 times purchase customer
+
+3. customer who have more than 2 times purchase vs who didn't purchase
+
+4. what customer do before they purchase
+
+5. use the pattern discover to find out first, than  use supervise classification to find out correct answers
+
+
+training dataset can be separated in tables:
+1. user: profile about each user 
+2. purchase with ITEM item and who buy it (time, customerID,  itemID)
+3. what item belong to what category and price	
+"""
