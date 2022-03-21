@@ -64,7 +64,7 @@ class PurchasesHistory:
 
 
 
-data = pd.read_csv('/Users/nakreond/Programming_Languages/Python_Projects/H&M Personalized Fashion Recommendations/H_M_transaction_2020.csv')
+data = pd.read_csv('.../H_M_transaction_2020.csv')
 # change the time to sec
 data['t_dat'] = pd.to_datetime(data['t_dat'], format='%Y-%m-%d').map(pd.Timestamp.timestamp)
 

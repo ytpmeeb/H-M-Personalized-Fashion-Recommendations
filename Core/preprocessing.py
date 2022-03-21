@@ -86,14 +86,14 @@ def article_data(data: []):
     data.to_csv('training_article.csv', sep=',', encoding='UTF-8', index=None, header=True)
 
 
-# data1 = pd.read_csv('/Users/nakreond/Programming_Languages/Python_Projects/H&M Personalized Fashion Recommendations/customers.csv')
-data1 = pd.read_csv('C:/Users/naerkond/Programming_Languages/GitHub/HnM_Personalized_Fashion_Recommendations/Datasets/customers.csv')
+# data1 = pd.read_csv('.../customers.csv')
+data1 = pd.read_csv('.../customers.csv')
 
-# data2 = pd.read_csv('/Users/nakreond/Programming_Languages/Python_Projects/H&M Personalized Fashion Recommendations/H_M_transaction_2020.csv')
-# data2 = pd.read_csv('C:/Users/naerkond/Programming_Languages/GitHub/HnM_Personalized_Fashion_Recommendations/Datasets/transactions_train.csv')
+# data2 = pd.read_csv('.../H_M_transaction_2020.csv')
+# data2 = pd.read_csv('.../transactions_train.csv')
 
-# data3 = pd.read_csv('/Users/nakreond/Programming_Languages/Python_Projects/H&M Personalized Fashion Recommendations/articles.csv')
-data3 = pd.read_csv('C:/Users/naerkond/Programming_Languages/GitHub/HnM_Personalized_Fashion_Recommendations/Datasets/articles.csv')
+# data3 = pd.read_csv('.../articles.csv')
+data3 = pd.read_csv('.../articles.csv')
 
 customer_data(data1)
 # transaction_data(data2)
