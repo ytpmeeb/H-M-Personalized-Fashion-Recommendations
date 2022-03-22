@@ -44,16 +44,13 @@ def transaction_data(data: []):
     data['t_dat'] = data['t_dat'].dt.date
     reduceMemory('customer_id', data)
 
-    # delete price and sales_channel_id value
-    data = data.drop('price', 1)
-    data = data.drop('sales_channel_id', 1)
-
     # find customer who purchase more than 1 times
     a = pd.DataFrame(data.loc[data['t_dat'] == date(2020, 9, 21), 'customer_id'])
     a = a.drop_duplicates()
     b = data.loc[data['t_dat'] == date(2020, 9, 21)]
     b = pd.DataFrame(b.loc[b.customer_id.isin(a.customer_id), 'customer_id'])
     b = b.drop_duplicates()
+
     # split transaction into years and generate csv
     tx2018 = data.loc[data['t_dat'] <= date(2019, 9, 20)]
     tx2019 = data.loc[(date(2019, 9, 20) < data['t_dat']) & (data['t_dat'] <= date(2020, 9, 20))]

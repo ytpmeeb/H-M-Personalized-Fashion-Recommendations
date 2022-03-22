@@ -19,7 +19,7 @@ class Similarity:
         self.x = x
         self.y = y
 
-    # Eucliden Distance is the shortest distance between two points
+    # Euclidean Distance is the shortest distance between two points
     def Euclidean_distance(self):
         ed = distance.euclidean(self.x, self.y)
 
@@ -92,8 +92,8 @@ class Correlation:
 
 
 # Enter the value
-x = [40, 80, 12]
-y = [35, 23, 0]
+x = [1, 1, 1, 2, 2, 1, 0, 0, 0, 0]
+y = [0, 1, 0, 2, 2, 0, 1, 0, 0, 0]
 
 euclidean_distance = Similarity(x, y).Euclidean_distance()
 manhattan_distance = Similarity(x, y).Manhattan_distance()
