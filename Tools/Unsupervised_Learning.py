@@ -1,8 +1,6 @@
-from Tools import Data_Transformation
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
 
 
 def k_mean_find_k(data_scaled):
@@ -63,4 +61,7 @@ def k_mean(data_scaled, k):
     frame['cluster'].value_counts()
 
     return frame
+
+
+
 

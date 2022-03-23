@@ -24,6 +24,7 @@
 
 
 **aggression detection machine learning
+--------------------------------------------------------------------------------------------------------------------------------
 
 03/16 Meeting
 
@@ -38,81 +39,55 @@ col is purchase event, the feature what customer did or product
 
 4. what customer do before they purchase
 
-5. use the pattern discover to find out first, than  use supervise classification to find out correct answers
+5. use the pattern discover to find out first, then use supervise classification to find out correct answers
 
 
 training dataset can be separated in tables:
 1. user: profile about each user
-2. purchase with ITEM item and who buy it (time, customerID,  itemID)
+2. purchase with  item and who buy it (time, customerID,  itemID)
 3. what item belong to what category and price
 """
 
-from Tools import Anomaly_Detection
-from Tools import Data_Integration
-from Tools import Data_Reduction
-from Tools import Data_Transformation
-from Tools import Supervised_Learning
-from Tools import Unsupervised_Learning
+from Core import training
+from Core import preprocessing
+# from Core import exploring
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import datetime
 from datetime import *
 
 
-# https://www.kaggle.com/cdeotte/recommend-items-purchased-together-0-021/notebook
-class PurchasesHistory:
-    @staticmethod
-    # find each customer's last week of purchases
-    def lastWeekCustomerPurchases(data):
-        train = []
-        data['t_dat'] = pd.to_datetime(data['t_dat'])
-        tmp = data.groupby('customer_id').t_dat.max().reset_index()
-        tmp.columns = ['customer_id', 'max_dat']
-        train = data.merge(tmp, on=['customer_id'], how='left')
-        train['diff_dat'] = (train.max_dat - train.t_dat).dt.days
-        train = train.loc[train['diff_dat'] <= 6]
-
-        return train
-
-    @staticmethod
-    # find top 50 most often purchased items in last week
-    def lastWeekPopularPurchases(train):
-        tmp = train.groupby(['customer_id', 'article_id'])['t_dat'].agg('count').reset_index()
-        tmp.columns = ['customer_id', 'article_id', 'ct']
-        train = train.merge(tmp, on=['customer_id', 'article_id'], how='left')
-        train = train.sort_values(['ct', 't_dat'], ascending=False)
-        train = train.drop_duplicates(['customer_id', 'article_id'])
-        train = train.sort_values(['ct', 't_dat'], ascending=False)
-        popularList = train[['article_id', 'ct']]
-
-        return popularList[:50]
+rawT = pd.read_csv('./Data/Original Data/transactions_train.csv')
+rawC = pd.read_csv('./Data/Original Data/customers.csv')
+rawA = pd.read_csv('./Data/Original Data/articles.csv')
+trainT = pd.read_csv('./Data/Training Data/training_transaction_2020_last_week.csv')
+trainT18 = pd.read_csv('./Data/Training Data/training_transaction_2018.csv')
+trainT19 = pd.read_csv('./Data/Training Data/training_transaction_2019.csv')
+trainT20 = pd.read_csv('./Data/Training Data/training_transaction_2020.csv')
+trainC = pd.read_csv('./Data/Training Data/training_customer.csv')
+trainMC = pd.read_csv('./Data/Training Data/multi-purchases_customers.csv')
+trainA = pd.read_csv('./Data/Training Data/training_article.csv')
 
 
-data = pd.read_csv('./Data/Training Data/transaction_2020.csv')
-data = pd.read_csv('./Data/Training Data/training_customer.csv')
-data = pd.read_csv('./Data/Training Data/training_article.csv')
+# preprocessing
+preprocessing.transaction_data(rawT)
+preprocessing.customer_data(rawC)
+preprocessing.article_data(rawA)
+
+
+# training
 # change the time to sec
-data['t_dat'] = pd.to_datetime(data['t_dat'], format='%Y-%m-%d').map(pd.Timestamp.timestamp)
-# skip the id
-data = data.iloc[:, 1:]
+trainT['t_dat'] = pd.to_datetime(trainT['t_dat'], format='%Y-%m-%d').map(pd.Timestamp.timestamp)
 
-m_nor = Data_Transformation.min_max(data)
-z_nor = Data_Transformation.zScore(data)
+training.Clustering.training_k_mean(trainC)
+training.Clustering.training_k_mean(trainA)
 
-m_pca = Data_Reduction.pca(m_nor)
-z_pca = Data_Reduction.pca(z_nor)
-
-Unsupervised_Learning.k_mean_find_k(m_nor)
-Unsupervised_Learning.k_mean_find_k(z_nor)
-
-m_k = Unsupervised_Learning.k_mean(m_pca, 10)
-z_k = Unsupervised_Learning.k_mean(z_pca, 10)
-
-
-PurchasesHistory(data).lastWeekCustomerPurchases()
+training.PurchasesHistory.lastWeekCustomerPurchases(trainT)
 
 # Transform data into 0 and 1
-pd.crosstab(data.customer_id, data.article_id)
-pd.crosstab(data.customer_id, data.t_dat)
-pd.crosstab(data.article_id, data.t_dat)
+pd.crosstab(trainT.customer_id, trainT.article_id)
+pd.crosstab(trainT.customer_id, trainT.t_dat)
+pd.crosstab(trainT.article_id, trainT.t_dat)
+
 

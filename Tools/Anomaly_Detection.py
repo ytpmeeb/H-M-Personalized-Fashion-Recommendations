@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 
 def nn(df, k):
     """
+    Nearest Neighbors model
     :param df: data frame
     :param k: top k-nearest-neighbors have to be found
     :return: new data frame contains outlier
