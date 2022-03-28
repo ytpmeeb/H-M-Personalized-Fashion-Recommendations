@@ -1,10 +1,3 @@
 # Personalized Fashion Recommendations
 
-notes
-1. https://www.youtube.com/watch?v=SVM_pX0oTU8
-
-2. https://gist.github.com/famot/95e96424ecb6bf280f2973752d0bf12b
-
-3. https://www.geeksforgeeks.org/implementing-apriori-algorithm-in-python/
-
-4. https://www.youtube.com/watch?v=WGlMlS_Yydk
+In this project we seek to use previous sales data, customer information, and other metadata to predict what clothing purchases users will make in the near future. This algorithm can help us provide better personalized recommendations within the fashion industry, improve sales on those items, and generally help users find more clothing that they like. By creating a better recommendation algorithm we can ensure that customers can find the products they need and ultimately improve the customer experience.
