@@ -1,4 +1,7 @@
 """
+https://www.youtube.com/watch?v=WGlMlS_Yydk
+https://www.youtube.com/watch?v=SVM_pX0oTU8
+https://www.geeksforgeeks.org/implementing-apriori-algorithm-in-python/
 03/21 & 3/23 Meeting
 1. In the presentation, we can discuss the failre of using K-mean
 
