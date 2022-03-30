@@ -69,6 +69,10 @@ def transaction_data(data: []):
     popularList = trainA[['article_id', 'ct']]
     popularList[:50]
 
+    # organize each day of customer purchase
+    temp = tx2018.loc[tx2018['customer_id'].isin(trainC['customer_id'])]
+    trainI = temp.groupby(['t_dat', 'customer_id'])['article_id'].apply(list).reset_index(name='transaction')
+    p, r = Unsupervised_Learning.fp_growth(trainI['transaction'], 2, 0.8)
     # write to csv
     trainC.to_csv('multi-purchases_customers.csv', sep=',', encoding='UTF-8', index=None, header=True)
     tx2018.to_csv('training_transaction_2018.csv', sep=',', encoding='UTF-8', index=None, header=True)

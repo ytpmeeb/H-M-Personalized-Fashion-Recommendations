@@ -61,12 +61,15 @@ from datetime import *
 rawT = pd.read_csv('./Data/Original Data/transactions_train.csv')
 rawC = pd.read_csv('./Data/Original Data/customers.csv')
 rawA = pd.read_csv('./Data/Original Data/articles.csv')
+
 trainT = pd.read_csv('./Data/Training Data/training_transaction_2020_last_week.csv')
 trainT18 = pd.read_csv('./Data/Training Data/training_transaction_2018.csv')
 trainT19 = pd.read_csv('./Data/Training Data/training_transaction_2019.csv')
 trainT20 = pd.read_csv('./Data/Training Data/training_transaction_2020.csv')
+
 trainC = pd.read_csv('./Data/Training Data/training_customer.csv')
 trainMC = pd.read_csv('./Data/Training Data/multi-purchases_customers.csv')
+
 trainA = pd.read_csv('./Data/Training Data/training_article.csv')
 
 
