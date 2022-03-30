@@ -67,18 +67,18 @@ def transaction_data(data: []):
     trainA = trainA.drop_duplicates(['customer_id', 'article_id'])
     trainA = trainA.sort_values(['ct', 't_dat'], ascending=False)
     popularList = trainA[['article_id', 'ct']]
-    popularList[:50]
 
     # organize each day of customer purchase
     temp = tx2018.loc[tx2018['customer_id'].isin(trainC['customer_id'])]
     trainI = temp.groupby(['t_dat', 'customer_id'])['article_id'].apply(list).reset_index(name='transaction')
     p, r = Unsupervised_Learning.fp_growth(trainI['transaction'], 2, 0.8)
     # write to csv
-    trainC.to_csv('multi-purchases_customers.csv', sep=',', encoding='UTF-8', index=None, header=True)
     tx2018.to_csv('training_transaction_2018.csv', sep=',', encoding='UTF-8', index=None, header=True)
     tx2019.to_csv('training_transaction_2019.csv', sep=',', encoding='UTF-8', index=None, header=True)
     tx2020.to_csv('training_transaction_2020.csv', sep=',', encoding='UTF-8', index=None, header=True)
     tx2020Last.to_csv('training_transaction_2020_last_week.csv', sep=',', encoding='UTF-8', index=None, header=True)
+    trainC.to_csv('multi-purchases_customers.csv', sep=',', encoding='UTF-8', index=None, header=True)
+    popularList[:100].to_csv('100_popular_products.csv', sep=',', encoding='UTF-8', index=None, header=True)
 
 
 def article_data(data: []):

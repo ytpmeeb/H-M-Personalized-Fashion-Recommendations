@@ -1,5 +1,8 @@
 """
-03/21 Meeting
+https://www.youtube.com/watch?v=WGlMlS_Yydk
+https://www.youtube.com/watch?v=SVM_pX0oTU8
+https://www.geeksforgeeks.org/implementing-apriori-algorithm-in-python/
+03/21 & 3/23 Meeting
 1. In the presentation, we can discuss the failre of using K-mean
 
 2. Two parts of data cleaning need to complete:
@@ -8,10 +11,11 @@
         ***the reason don't find the next day purchase is because the next transaction may be highly related with
         the previous one and that fact is a command sense, ex: When A bought a new phone, high chance to buy the
         phone case next day
-    (3) Find customer who made more than 2 transaction in the transaction history
+    (3) Find customer who made more than 2 transaction in the transaction history (find the customer who puchase in next nweek   )
 
 2. New models to focus are:
-    (1) Pattern (unsupervised learning): Apriori
+    (1) Pattern (unsupervised learning): FP Growth (this algorithm is faster than apriori)
+        *** Apriori can set (support threshold to 60%, confidence to 40%)
     (2) Classification: Logistic regression
         i. the table should focus on one category at a time, ex: who buy t-shirt will they buy shoe in next 7 days?
         column: t-shirt(Y/N) | Online or Instore | buy shoe in next 7 days(Y/N)
@@ -20,13 +24,19 @@
         ----------------------------------------------------------
         E1  |    Y     |    Online  |               Y
 
-3. Compare or use different method to get the answer
+3. training:
+    (1) train on 2019 and test on 2020
+    (2) predict the odds of the same product been bought again
+    (3) based one the recently record to sugeest the product
+    (4)
+
+4. suggesting list:
 
 
 **aggression detection machine learning
 --------------------------------------------------------------------------------------------------------------------------------
 
-03/16 Meeting
+16 Meeting
 
 focus on:
 1. project should focus more on Event of item, like what item was bought at what day

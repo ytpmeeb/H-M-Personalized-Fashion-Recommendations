@@ -1,9 +1,9 @@
-import Data_Integration
-import Data_Reduction
-import Data_Transformation
-import Anomaly_Detection
-import Supervised_Learning
-import Unsupervised_Learning
+from Tools import Data_Integration
+from Tools import Data_Reduction
+from Tools import Data_Transformation
+from Tools import Anomaly_Detection
+from Tools import Supervised_Learning
+from Tools import Unsupervised_Learning
 
 
 def integration():
