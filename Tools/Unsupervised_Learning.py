@@ -74,5 +74,11 @@ def fp_growth(data, support, confidence):
     patterns = pyfpgrowth.find_frequent_patterns(data, support)
     rules = pyfpgrowth.generate_association_rules(patterns, confidence)
 
+    print('Patterns size: ', len(patterns))
+    print('Rules size: ', len(rules))
+
     return patterns, rules
+
+
+
 

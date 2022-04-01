@@ -1,7 +1,4 @@
 """
-https://www.youtube.com/watch?v=WGlMlS_Yydk
-https://www.youtube.com/watch?v=SVM_pX0oTU8
-https://www.geeksforgeeks.org/implementing-apriori-algorithm-in-python/
 03/21 & 3/23 Meeting
 1. In the presentation, we can discuss the failre of using K-mean
 
@@ -27,11 +24,12 @@ https://www.geeksforgeeks.org/implementing-apriori-algorithm-in-python/
 3. training:
     (1) train on 2019 and test on 2020
     (2) predict the odds of the same product been bought again
-    (3) based one the recently record to sugeest the product
+    (3) based one the recently record to suggest the product
     (4)
 
 4. suggesting list:
-
+by article correlation
+by article frequency
 
 **aggression detection machine learning
 --------------------------------------------------------------------------------------------------------------------------------
@@ -72,21 +70,28 @@ rawT = pd.read_csv('./Data/Original Data/transactions_train.csv')
 rawC = pd.read_csv('./Data/Original Data/customers.csv')
 rawA = pd.read_csv('./Data/Original Data/articles.csv')
 
-trainT = pd.read_csv('./Data/Training Data/training_transaction_2020_last_week.csv')
-trainT18 = pd.read_csv('./Data/Training Data/training_transaction_2018.csv')
-trainT19 = pd.read_csv('./Data/Training Data/training_transaction_2019.csv')
-trainT20 = pd.read_csv('./Data/Training Data/training_transaction_2020.csv')
-
-trainC = pd.read_csv('./Data/Training Data/training_customer.csv')
-trainMC = pd.read_csv('./Data/Training Data/multi-purchases_customers.csv')
-
-trainA = pd.read_csv('./Data/Training Data/training_article.csv')
-
-
 # preprocessing
 preprocessing.transaction_data(rawT)
 preprocessing.customer_data(rawC)
 preprocessing.article_data(rawA)
+
+
+# import training data
+tran18 = pd.read_csv('./Data/Training Data/training_transaction_2018.csv')
+tran19 = pd.read_csv('./Data/Training Data/training_transaction_2019.csv')
+tran20 = pd.read_csv('./Data/Training Data/training_transaction_2020.csv')
+tran20L = pd.read_csv('./Data/Training Data/training_transaction_2020_last_week.csv')
+tran20L = pd.read_csv('./Data/Training Data/year/training_transaction_2020_last_week.csv')
+
+customer = pd.read_csv('./Data/Training Data/training_customer.csv')
+customerM = pd.read_csv('./Data/Training Data/training_customer_with_multi-purchases.csv')
+
+article = pd.read_csv('./Data/Training Data/training_article.csv')
+article2018Pop = pd.read_csv('./Data/Training Data/training_transaction_2018_100_popular_products.csv')
+article2019Pop = pd.read_csv('./Data/Training Data/training_transaction_2019_100_popular_products.csv')
+article2020Pop = pd.read_csv('./Data/Training Data/training_transaction_2020_100_popular_products.csv')
+article2020LPop = pd.read_csv('./Data/Training Data/training_transaction_2020_last_week_100_popular_products.csv')
+
 
 
 # training
@@ -102,5 +107,4 @@ training.PurchasesHistory.lastWeekCustomerPurchases(trainT)
 pd.crosstab(trainT.customer_id, trainT.article_id)
 pd.crosstab(trainT.customer_id, trainT.t_dat)
 pd.crosstab(trainT.article_id, trainT.t_dat)
-
 
