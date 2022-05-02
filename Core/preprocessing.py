@@ -9,7 +9,7 @@ def reduce_memory(name, data):
     return data
 
 
-# find top 100 popular product from multi-purchases customers
+# find top 50 popular product from multi-purchases customers
 def popular_list(yearData, customerData):
     rawA = yearData.loc[yearData['customer_id'].isin(customerData['customer_id'])]
     trainA = rawA.groupby(['customer_id', 'article_id'])['t_dat'].agg('count').reset_index()
@@ -19,29 +19,27 @@ def popular_list(yearData, customerData):
     trainA = trainA.sort_values(['ct', 't_dat'], ascending=False)
     popularList = trainA[['article_id', 'ct']]
 
-    return popularList[:100]
+    return popularList[:50]
 
 
 # group each day purchased product from multi-purchases customers
-def group_transaction(yearData, articleData, customerData):
-    pd.options.mode.chained_assignment = None  # default='warn'
+def label_transection(yearData, articleData, customerData, group):
+    # pd.options.mode.chained_assignment = None  # default='warn'
     # find the customer with multi-purchases
     trainC = yearData.loc[yearData['customer_id'].isin(customerData['customer_id'])]
-    # eliminate duplicates
-    trainC = trainC.drop_duplicates(subset=['t_dat', 'customer_id', 'article_id'])
     # replace the article id to label
-    temp = []
     index = trainC['article_id'].unique()
     for i in range(len(index)):
-        temp = trainC['article_id'].replace(index[i], articleData.loc[articleData['article_id'] == index[i], 'group'].item())
-    # eliminate duplicates
-    trainC['article_id'] = temp
-    trainC = trainC.drop_duplicates(subset=['t_dat', 'customer_id', 'article_id'])
-    # group customer transaction into days
-    groupTran = trainC.groupby(['t_dat', 'customer_id'])['article_id'].apply(list).reset_index(name='transaction')
-    pd.options.mode.chained_assignment = 'warn'  # default='warn'
-
-    return groupTran
+        trainC['article_id'] = trainC['article_id'].replace(index[i], articleData.loc[articleData['article_id'] == index[i], 'group'].item())
+        print("id processed: ", i, " in ", len(index))
+    if group is True:
+        # eliminate duplicates
+        trainC = trainC.drop_duplicates(subset=['t_dat', 'customer_id', 'article_id'])
+        # group customer transection into days
+        groupTran = trainC.groupby(['t_dat', 'customer_id'])['article_id'].apply(list).reset_index(name='transection')
+        return groupTran
+    else:
+        return trainC
 
 
 def customer_data(data: []):
@@ -103,7 +101,7 @@ def article_data(data: []):
     data.to_csv('training_article.csv', sep=',', encoding='UTF-8', index=None, header=True)
 
 
-def transaction_data(data: [], articleData: []):
+def transection_data(data: [], articleData: []):
     data['t_dat'] = pd.to_datetime(data['t_dat'])
     data['t_dat'] = data['t_dat'].dt.date
     reduce_memory('customer_id', data)
@@ -116,7 +114,7 @@ def transaction_data(data: [], articleData: []):
     trainC = trainC.sort_values(['ct', 'customer_id'], ascending=False)
     trainC = trainC.loc[trainC['ct'] >= 2]
 
-    # split transaction into years and generate csv
+    # split transection into years and generate csv
     tx2018 = data.loc[data['t_dat'] <= date(2019, 1, 3)]
     tx2019 = data.loc[(date(2019, 1, 3) < data['t_dat']) & (data['t_dat'] <= date(2020, 1, 2))]
     tx2020 = data.loc[(date(2020, 1, 2) < data['t_dat']) & (data['t_dat'] <= date(2021, 9, 17))]
@@ -128,19 +126,19 @@ def transaction_data(data: [], articleData: []):
     txA2020 = popular_list(tx2020, trainC)
     txA2020Last = popular_list(tx2020Last, trainC)
 
-    # group transaction from multi-purchases customers in each year
-    txG2018 = group_transaction(tx2018, articleData, trainC)
-    txG2019 = group_transaction(tx2019, articleData, trainC)
-    txG2020 = group_transaction(tx2020, articleData, trainC)
-    txG2020Last = group_transaction(tx2020Last, articleData, trainC)
+    # group transection from multi-purchases customers in each year
+    txG2018 = label_transection(tx2018, articleData, trainC, group=True)
+    txG2019 = label_transection(tx2019, articleData, trainC, group=True)
+    txG2020 = label_transection(tx2020, articleData, trainC, group=True)
+    txG2020Last = label_transection(tx2020Last, articleData, trainC, group=True)
 
     # write to csv
     trainC.to_csv('training_customer_with_multi-purchases.csv', sep=',', encoding='UTF-8', index=None, header=True)
-    txA2018.to_csv('training_transaction_2018_100_popular_products.csv', sep=',', encoding='UTF-8', index=None, header=True)
-    txA2019.to_csv('training_transaction_2019_100_popular_products.csv', sep=',', encoding='UTF-8', index=None, header=True)
-    txA2020.to_csv('training_transaction_2020_100_popular_products.csv', sep=',', encoding='UTF-8', index=None, header=True)
-    txA2020Last.to_csv('training_transaction_2020_last_week_100_popular_products.csv', sep=',', encoding='UTF-8', index=None, header=True)
-    txG2018.to_csv('training_transaction_2018.csv', sep=',', encoding='UTF-8', index=None, header=True)
-    txG2019.to_csv('training_transaction_2019.csv', sep=',', encoding='UTF-8', index=None, header=True)
-    txG2020.to_csv('training_transaction_2020.csv', sep=',', encoding='UTF-8', index=None, header=True)
-    txG2020Last.to_csv('training_transaction_2020_last_week.csv', sep=',', encoding='UTF-8', index=None, header=True)
+    txA2018.to_csv('training_transection_2018_50_popular_products.csv', sep=',', encoding='UTF-8', index=None, header=True)
+    txA2019.to_csv('training_transection_2019_50_popular_products.csv', sep=',', encoding='UTF-8', index=None, header=True)
+    txA2020.to_csv('training_transection_2020_50_popular_products.csv', sep=',', encoding='UTF-8', index=None, header=True)
+    txA2020Last.to_csv('training_transection_2020_last_week_100_popular_products.csv', sep=',', encoding='UTF-8', index=None, header=True)
+    txG2018.to_csv('grouping_transection_2018.csv', sep=',', encoding='UTF-8', index=None, header=True)
+    txG2019.to_csv('grouping_transection_2019.csv', sep=',', encoding='UTF-8', index=None, header=True)
+    txG2020.to_csv('grouping_transection_2020.csv', sep=',', encoding='UTF-8', index=None, header=True)
+    txG2020Last.to_csv('grouping_transection_2020_last_week.csv', sep=',', encoding='UTF-8', index=None, header=True)

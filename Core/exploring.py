@@ -3,14 +3,10 @@ import plotly.express as px
 import pandas as pd
 
 
-article_csv = '/Users/nakreond/Programming_Languages/Python_Projects/' \
-           'H&M Personalized Fashion Recommendations/articles.csv'
-customer_csv = '/Users/nakreond/Programming_Languages/Python_Projects/' \
-           'H&M Personalized Fashion Recommendations/customers.csv'
-tx_csv = '/Users/nakreond/Programming_Languages/Python_Projects/' \
-           'H&M Personalized Fashion Recommendations/transactions_train.csv'
-wage_csv = '/Users/nakreond/Programming_Languages/Python_Projects/' \
-           'H&M Personalized Fashion Recommendations/Iowa_Wage_Data_by_Occupation.csv'
+article_csv = './Data/Original Data/articles.csv'
+customer_csv = './Data/Original Data/customers.csv'
+tx_csv = './Data/Original Data/transections_train.csv'
+wage_csv = './Data/Original Data/Iowa_Wage_Data_by_Occupation.csv'
 
 article_df = pd.read_csv(article_csv)
 article_df.head()
@@ -22,7 +18,7 @@ print("shape of data customer data", customer_df.shape)
 
 tx_df = pd.read_csv(tx_csv)
 tx_df.head()
-print("shape of data transactions data", tx_df.shape)
+print("shape of data transections data", tx_df.shape)
 
 
 # Function to plot the Nan percentages of each columns
@@ -45,7 +41,7 @@ def plot_nas(df: pd.DataFrame):
         print('No NAs found')
 
 
-print("Checking Null's in data")
+print("Checking null in data")
 plot_nas(article_df)
 plot_nas(customer_df)
 plot_nas(tx_df)
